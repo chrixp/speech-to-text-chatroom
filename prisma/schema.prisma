@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// create database chat_room;
+// CREATE USER 'chat_room_user'@'localhost' IDENTIFIED BY 'chat_room_password';
+// GRANT ALL PRIVILEGES ON *.* TO 'chat_room_user'@'localhost';
+//  GRANT ALL PRIVILEGES ON chat_room.* TO 'chat_room_user'@'localhost';
+// FLUSH PRIVILEGES
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://chat_room_user:chat_room_password@localhost:3306/chat_room"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model images {
+  id  Int     @id @default(autoincrement())
+  path String 
+}
+
+model cars {
+  id    String @id @default(uuid())
+  name  String
+  image images @relation(fields: [image_id], references: [id])
+  image_id Int
+}
+
+
