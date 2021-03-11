@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { socket } from './socket'
+import SignUp from './SignUp'
+import axios from 'axios'
+
 
 const Message = styled.div`
   display: flex;
@@ -28,14 +31,20 @@ const App = () => {
 
   return (
     <div>
+      <SignUp />
       <div>
+        <h1>Send Message</h1>
         <label>Input your ID</label>
         <input type="text" value={id} onChange={e => setId(e.target.value)}></input>
         <label>Message</label>
         <textarea value={message} onChange={e => setMessage(e.target.value)} />
         <button onClick={sendMessage}>Send</button>
-        
       </div>
+      <button onClick={() => axios.post('/cars', {
+        firstName: "Nhat Phan",
+        lastName : "DWA",
+        uuid: "DWWD"
+      })}>Post Request</button>
       <Message>
         {received['imageURI'] && 
           <>

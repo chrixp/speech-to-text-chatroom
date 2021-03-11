@@ -16,16 +16,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model images {
-  id  Int     @id @default(autoincrement())
-  path String 
-}
 
 model cars {
   id    String @id @default(uuid())
   name  String
-  image images @relation(fields: [image_id], references: [id])
-  image_id Int
+  image_path String
 }
 
 

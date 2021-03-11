@@ -8,11 +8,7 @@ async function main() {
     data: {
       id: v4(),
       name: 'Nikkei Asia',
-      image: {
-        create: {
-          path: 'cycle.jpg'
-        }
-      }
+      image_path: '1'
     }
   })
 
