@@ -30,17 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 app.post('/cars', async (req, res) => {
-  const image = req.files.carPic
-
-  const imageNameSuffix = image.name.split('.').pop()
-  const newImageName = `${v4()}.${imageNameSuffix}`
-  const absoluteImagePath = getAbsoluteImagePath(newImageName)
-  image.mv(absoluteImagePath)
+  console.log(req.body.uuid)
   await prisma.cars.create({
     data: {
       id: req.body.uuid,
       name: req.body.carName,
-      image_path: absoluteImagePath,
+      image_path: req.body.carPic,
 
     }
   })
@@ -48,17 +43,18 @@ app.post('/cars', async (req, res) => {
 
 app.use(express.static(path.resolve(__dirname,"../build")))
 io.on('connection', (socket) => {
+  console.log("connection")
+  console.log(socket.id)
+
     socket.on("message", async (event) => {
       const car = await getCar(event.id)
-      console.log(car['image_path'])
-      imageToBase64(car['image_path'])
-        .then(imageURI =>  {
-          socket.broadcast.emit('message', {
-            imageURI,
-            message: event.message,
-            name: car.name
-          })
-        })
+      console.log("message received")
+      socket.emit('message', {
+        uuid: v4(),
+        image: car.image_path,
+        message: event.message,
+        carName: car.name
+      })
     })
 
 

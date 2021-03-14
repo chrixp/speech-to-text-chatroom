@@ -20,7 +20,7 @@ generator client {
 model cars {
   id    String @id @default(uuid())
   name  String
-  image_path String
+  image_path String @db.LongText
 }
 
 
